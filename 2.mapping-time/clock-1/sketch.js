@@ -1,14 +1,13 @@
 
+//Clock 1
 function setup() {
   createCanvas(700, 700)
   // print the time to the console once at the beginning of the run. try opening up the
-  //print('starting time:', clock())
+  print('starting time:', clock())
   // var discrete = false
 }
 
-function draw() {
-  // check the clock for the current time and unpack some of its fields to generate a time-string
-  
+function draw() {  
   background('white')
 
 //OUTLINES
@@ -49,18 +48,24 @@ function draw() {
 
   strokeWeight(25)
   angleMode(DEGREES)
-  // arc(350, 350, 118, 118, startRadius, 0) // (x, y, w, h, start, stop)
-  // arc(350, 350, 228, 228, startRadius, 45) // (x, y, w, h, start, stop)
-  // arc(350, 350, 328, 328, startRadius, 100) // (x, y, w, h, start, stop)
-  arc(350, 350, 118, 118, -90, secsRadius) // (x, y, w, h, start, stop)//sec
-  arc(350, 350, 228, 228, -90, minsRadius) // (x, y, w, h, start, stop)//mind
-  arc(350, 350, 328, 328, -90, hourRadius) // (x, y, w, h, start, stop)//hour
+  // arc(350, 350, 118, 118, -90, 0) // (x, y, w, h, start, stop)
+  // arc(350, 350, 228, 228, -90, 45) // (x, y, w, h, start, stop)
+  // arc(350, 350, 328, 328, -90, 360) // (x, y, w, h, start, stop)
+  arc(350, 350, 118, 118, 0, secsRadius) // (x, y, w, h, start, stop)//sec
+  arc(350, 350, 228, 228, 0, minsRadius) // (x, y, w, h, start, stop)//mind
+  arc(350, 350, 328, 328, 0, hourRadius) // (x, y, w, h, start, stop)//hour
 
+  textFont("Anonymous Pro") // ← check index.html to see how it was loaded from google-fonts
+  textSize(20) // make it big
+  fill(100, 50, 50)
+  noStroke()
+
+  // draw the time string to the canvas
+  text(now.text.date, 30, 50)
+  text(now.text.time, 30, 70)
   // draw the time string to the canvas
   //text(now.text.date, 30, 50)
   //text(now.text.time, 30, 100)
   //-----------------------
-
-
 
 }
