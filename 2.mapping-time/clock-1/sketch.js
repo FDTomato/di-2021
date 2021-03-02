@@ -8,11 +8,33 @@ function setup() {
 }
 
 function draw() {  
-  background('white')
+  var now = clock()
+  var dark = color('#001670')
+  var noon = color('white')
+  var hourColor
+  if (now.am){
+    // fade up from midnight to noon
+    hourColor = lerpColor(dark, noon, now.progress.halfday)
+  }else{
+    // fade down from noon to midnight
+    hourColor = lerpColor(noon, dark, now.progress.halfday)
+  }
+  var clockday = color('black')
+  var clocknight = color('white')
+  var clockColor
+  if (now.am){
+    // fade up from midnight to noon
+    clockColor = lerpColor(clocknight,clockday, now.progress.halfday)
+  }else{
+    // fade down from noon to midnight
+    clockColor = lerpColor(clockday,clocknight, now.progress.halfday)
+  }
+
+  background(hourColor)
 
 //OUTLINES
   strokeWeight(2.5)
-  stroke(0)
+  stroke(clockColor)
   ellipseMode(RADIUS)
   //OUTER RING, HOUR
   noFill()
@@ -33,7 +55,6 @@ function draw() {
 
 //---------------------------------
   var maxRadius = 360
-  var now = clock()
   // var discrete = false
 
   // if (discrete){
@@ -53,6 +74,7 @@ function draw() {
   //hours/hour
 
   strokeWeight(25)
+  
   angleMode(DEGREES)
   //if statement here to change color, AM/PM
   arc(350, 350, 118, 118, -90, secsRadius) // (x, y, w, h, start, stop)//sec

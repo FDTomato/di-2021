@@ -1,82 +1,90 @@
-function pointAt(cx, cy, angle, dist){
-  var theta = angle/360 * TWO_PI
-  return {x:cx+cos(theta) * dist,
-          y:cy+sin(theta) * dist}
-}
+const NUM_CIRCLES = 12;
+let spacing = 45;
 
 function setup() {
-  createCanvas(300, 300);
+  createCanvas(600, 300);
   rectMode(CENTER)
+  angleMode(DEGREES)
 }
 
 function draw() {
-  //
-  // *** MAPPING TIME TO ANGLES & COLORS *** 
-  //
+  background ('white')
   var now = clock()
-
-  // map the current second from a 0-60 value 
-  // to a 0-360° angle
-  var minAngle = map(now.sec, 0, 60, 0, 360)
-  
-  // map the fraction of the current second from 
-  // a 0.0-1.0 percentage to a 0-360° angle
-  var secAngle = map(now.progress.sec, 0, 1, 0, 360)
-  
-  // define a dark and light color for midnight and noon respectively
-  var dark = color('#036')
-  var noon = color('lightskyblue')
-  
-  // pick an appropriate color mixture for the current hour
-  var hourColor
-  if (now.am){
-    // fade up from midnight to noon
-    hourColor = lerpColor(dark, noon, now.progress.halfday)
-  }else{
-    // fade down from noon to midnight
-    hourColor = lerpColor(noon, dark, now.progress.halfday)
+ 
+  // 12 hour
+  // HOUR outlined circle frame
+var outlineColor
+var outday = color ('white')
+var outnight = color('black')
+if (now.am){
+  // fade up from midnight to noon
+  outlineColor = color (outday)
+}else{
+  // fade down from noon to midnight
+  outlineColor = color (outnight)
+}
+  fill(outlineColor)
+  strokeWeight (2)
+  stroke (0)
+  for (let i = 0; i < NUM_CIRCLES; i+=1) {
+    circle(50+i*spacing, 100, 40);
   }
   
-  
-  //
-  // *** CALCULATING LOCATIONS *** 
-  //
-  
-  // we'll use the center of the canvas as the 
-  // starting point for our location calculations
-  var origin = {x:width/2, y:height/2}
-  
-  // calculate the position of the 'once-per-minute' 
-  // shape relative to the origin 
-  var minLocation = pointAt(origin.x, origin.y, minAngle, 80)
-  
-  // calculate the position of the 'once-per-second' 
-  // shape relative to the once-per-minute point 
-  // we just located
-  var secLocation = pointAt(origin.x, origin.y, secAngle, 50)
+  var clockday = color('black')
+  var clocknight = color('#ff9494')
+  var clockColor
+  if (now.am){
+    // fade up from midnight to noon
+    clockColor = color(clockday)
+  }else{
+    // fade down from noon to midnight
+    clockColor = color(clocknight)
+  }
+ 
+ //HOUR filling
+  fill (clockColor)
+  _.times (now.hour, i => { 
+    circle(50+i*spacing,100, 40)
+  })
 
-  
-  //
-  // *** DRAWING *** 
-  //
-  
-  // color the background based on our fade up/down logic
-  background(hourColor)
-  
-  // draw a point at the center of the canvas 
-  // so we know where the 'origin' is
-  fill(255)
-  circle(origin.x, origin.y, 5)
 
-  // draw lines between the origin & the two calculated points
-  stroke(255, 150)
-  line(origin.x, origin.y, secLocation.x, secLocation.y)
-  line(origin.x, origin.y, minLocation.x, minLocation.y)
+// MINUTE 
+  fill(outlineColor)
+  circle(400,200,50,50)
+
+  var maxRadius = 360
+  hourRadius = maxRadius * now.progress.day*2 -90
+  minsRadius = maxRadius * now.progress.hour -90
+  secsRadius = maxRadius * now.progress.min-90
   
-  // draw a pair of shapes at those locations 
+  fill (clockColor)
+  arc(400, 200, 50, 50, -90, minsRadius) // (x, y, w, h, start, stop)//
+
+   //--------
+  textFont("Anonymous Pro") // ← check index.html to see how it was loaded from google-fonts
+  textSize(20) // make it big
+  fill(100, 50, 50)
   noStroke()
-  fill(0)
-  circle(minLocation.x, minLocation.y, 40)
-  fill(0, 120)
-  rect(secLocation.x, secLocation.y, 20, 20)
+  text(now.text.date, 30, 50)
+  text(now.text.time, 30, 70)
+
+  //SECOND 
+  //  var v1 = createVector (250,200);
+  fill(outlineColor)
+  strokeWeight (2)
+  stroke (0)
+  circle(250,200, 50)
+
+  noStroke()
+  fill (clockColor)
+  translate (250,200)
+  circle(400,200,50,50)
+  rotate (secsRadius)
+  //  triangle (230, 220, 250, 180, 270, 220)
+  arc(0,0,60,60, 0, 20)
+
+   
+ 
+ 
+
 }
