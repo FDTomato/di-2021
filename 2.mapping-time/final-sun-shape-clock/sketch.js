@@ -26,7 +26,7 @@ function draw() {
     hourColor = lerpColor(noon, dark, now.progress.halfday)
   }
   var clockday = color('#3A1E00')
-  var clocknight = color('white')
+  var clocknight = color('#FFEBD2')
   var clockColor
   if (now.am){
     // fade up from midnight to noon
@@ -65,12 +65,15 @@ function draw() {
   circle(350, 350, 400);
   // fill('orange')
   fill(seasonColor)
-  arc(350, 350, 400, 400, -90, yearRadius)
+  arc(350, 350, 380, 380, -90, yearRadius)
   // arc(350, 350, 400, 400, -90, monthRadius)
   
   noFill()
-  strokeWeight (20)
+  strokeWeight (1)
   arc(350, 350, 550, 550, -90, monthRadius)
+  arc(350, 350, 520, 520, -90, monthRadius)
+  strokeWeight(3)
+  arc(350, 350, 535, 535, -90, monthRadius)
 
 
   strokeWeight(1)
